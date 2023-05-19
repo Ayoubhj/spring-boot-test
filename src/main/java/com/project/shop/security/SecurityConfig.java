@@ -4,6 +4,7 @@ package com.project.shop.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,7 +23,11 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 import com.project.shop.security.jwt.AuthEntryPointJwt;
 import com.project.shop.security.jwt.AuthTokenFilter;
 import com.project.shop.services.impl.UserDetailsServiceImpl;
-
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @Configuration
@@ -65,17 +70,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	RequestRejectedHandler requestRejectedHandler() {
 	   return new HttpStatusRequestRejectedHandler();
 	}
-	
-	
+
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable()
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-			.authorizeRequests().antMatchers("/api/v1/auth/**").permitAll()
-			.antMatchers("/api/v1/test/**").permitAll()
-			.anyRequest().authenticated();
+			.authorizeRequests()
+				.antMatchers("/api/v1/**").authenticated()
+
+			.anyRequest().permitAll();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
+
+
 }
