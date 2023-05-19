@@ -10,8 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,21 +38,24 @@ public class Product extends BaseEntity{
 	private String price;
     @Column(name = "Quantity")
 	private String quantity;
-   
-    @JsonIgnore
+    @Column(name = "image")
+   	private String image;
+ 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="category_id", nullable=false)
+	@JsonBackReference
 	private Category category;
     
 
     
 	public Product(String title, String descreption, String price, String quantity,
-			Category category) {
+			Category category, String image) {
 
 		this.title = title;
 		this.descreption = descreption;
 		this.price = price;
 		this.quantity = quantity;
 		this.category = category;
+		this.image = image;
      }
 }
