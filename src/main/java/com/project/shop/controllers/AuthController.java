@@ -123,30 +123,14 @@ public class AuthController {
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
 
-		Set<String> strRoles = signUpRequest.getRole();
+
 		Set<com.project.shop.entity.Role> roles = new HashSet<>();
 
-		if (strRoles == null) {
+
 			com.project.shop.entity.Role userRole = roleRepository.findByName(Role.ROLE_USER)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
-		} else {
-			strRoles.forEach(role -> {
-				switch (role) {
-				case "ADMIN":
-					com.project.shop.entity.Role adminRole = roleRepository.findByName(com.project.shop.enuM.Role.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(adminRole);
-
-					break;
-				
-				default:
-					com.project.shop.entity.Role userRole = roleRepository.findByName(com.project.shop.enuM.Role.ROLE_USER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(userRole);
-				}
-			});
-		}
+	
 
 		user.setRoles(roles);
 		userRepository.save(user);
