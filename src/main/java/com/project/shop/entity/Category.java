@@ -11,11 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @Entity
@@ -24,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Builder
 public class Category extends BaseEntity {
 
 	

@@ -83,7 +83,8 @@ public class AuthController {
 				                                 refreshToken.getToken(),
 				 								 userDetails.getId(), 
 												 userDetails.getUsername(), 
-												 userDetails.getEmail(), 
+												 userDetails.getEmail(),
+
 												 roles));
 	}
 	

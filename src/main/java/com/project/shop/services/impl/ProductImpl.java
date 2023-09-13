@@ -3,6 +3,7 @@ package com.project.shop.services.impl;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,9 @@ public class ProductImpl implements ProductService{
  
     
 	@Override
-	public Collection<Product> getAllProducts() {
+	public List<Product> getAllProducts() {
 
-		List<Product> productes = productRepo.findAll();
-
-		return productes;
+		return productRepo.findAll();
 	}
 
 	@Override
@@ -66,8 +65,11 @@ public class ProductImpl implements ProductService{
 				);
 
 		productRepo.save(product);
-		
-		uploadProductImage(request.getImage(),product.getId());
+
+		if(Objects.nonNull(request.getImage())){
+			uploadProductImage(request.getImage(),product.getId());
+		}
+
 	   
 		
 		return objectNode.put("message", "Product Created  Successfuly");
@@ -130,13 +132,12 @@ public class ProductImpl implements ProductService{
 
 	@Override
 	public Boolean isValid(ProductRequest product) {
-		
-		
-			
+
+
 			if(product.getTitle() == "" || product.getDescreption() == "" || product.getPrice() == "" || product.getQuantity() == "" || product.getCategory().getId() == null ) {
 				
 				return false;
-				
+
 			}
 			
 		
